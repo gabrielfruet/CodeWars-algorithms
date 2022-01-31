@@ -1,7 +1,5 @@
 package Katas;
 
-import java.util.Arrays;
-
 public class DescendingOrder {
     public static int sortDesc(final int num) {
         String aux = String.valueOf(num);
