@@ -4,16 +4,16 @@ public class ConwaysGameOfLife {
 
     public static void printGame(int[][] cells){
         System.out.print("_");
-        for(int i = 0; i < cells.length; i++){
+        for(int i = 0; i < cells[0].length; i++){
             System.out.print("_");
         }
         System.out.println("_");
-        for(int i = 0; i < cells.length; i++){
+        for (int[] cell : cells) {
             System.out.print("|");
-            for(int j = 0; j < cells[0].length; j++){
-                if(cells[i][j] == 1){
+            for (int j = 0; j < cells[0].length; j++) {
+                if (cell[j] == 1) {
                     System.out.print("#");
-                }else{
+                } else {
                     System.out.print(".");
                 }
             }
@@ -24,8 +24,14 @@ public class ConwaysGameOfLife {
     public static int[][] getGeneration(int[][] cells, int generations){
 
         for(int times = 0; times < generations; times++) {
-            cells = step(cells);
+            try{
+                cells = step(cells);
+            }catch(ArrayIndexOutOfBoundsException ex){
+                System.out.println("All cells are dead.");
+                return null;
+            }
         }
+        cells = crop(cells);
         printGame(cells);
         return cells;
     }
@@ -82,9 +88,7 @@ public class ConwaysGameOfLife {
                 }
             }
         }
-        printGame(cells);
         cells = temp;
-        printGame(cells);
         return crop(cells);
     }
 
@@ -98,27 +102,21 @@ public class ConwaysGameOfLife {
     }
     public static int[][] crop(int[][] cells){
         int iFirst = -1;
-        int iLast = -1;
+        int iLast = 0;
         int jFirst = -1;
-        int jLast = -1;
+        int jLast = 0;
 
         for(int i = 0; i < cells.length; i++){
             int sum = 0;
             for(int j = 0; j < cells[0].length;j++){
                 sum += cells[i][j];
             }
-            if(sum != 0 && iFirst == -1){
-                iFirst= i;
-            }
-            if(sum == 0 && iFirst != -1){
-                iLast = i;
-            }
             if(sum != 0){
-                iLast = -1;
+                if(iFirst == -1){
+                    iFirst= i;
+                }
+                iLast = i + 1;
             }
-        }
-        if(iLast == -1){
-            iLast = cells.length;
         }
 
         for(int j = 0; j < cells[0].length; j++){
@@ -126,18 +124,12 @@ public class ConwaysGameOfLife {
             for(int i = 0; i < cells.length; i++){
                 sum += cells[i][j];
             }
-            if(sum != 0 && jFirst == -1){
-                jFirst= j;
-            }
-            if(sum == 0 && jFirst != -1){
-                jLast = j;
-            }
             if(sum != 0){
-                jLast = -1;
+                if(jFirst == -1){
+                    jFirst = j;
+                }
+                jLast = j + 1;
             }
-        }
-        if(jLast == -1){
-            jLast = cells[0].length;
         }
 
         int iSize = iLast - iFirst;
@@ -148,7 +140,6 @@ public class ConwaysGameOfLife {
         for(int i = iFirst; i < iLast;i++){
             System.arraycopy(cells[i], jFirst, newOne[i - iFirst], 0, jSize);
         }
-
         return newOne;
 
     }
