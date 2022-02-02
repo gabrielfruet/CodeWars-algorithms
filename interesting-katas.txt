@@ -1,0 +1,7 @@
+4kyu:
+
+Creating an interpreter for a strange language:
+https://www.codewars.com/kata/526c7b931666d07889000a3c
+
+Sudoku solution validator:
+https://www.codewars.com/kata/529bf0e9bdf7657179000008
