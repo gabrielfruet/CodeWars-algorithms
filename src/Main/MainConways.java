@@ -6,8 +6,6 @@ import java.util.Random;
 
 public class MainConways {
 
-
-
     public static void main(String[] args) {
 
         int[][] cells = new int[5][5];
@@ -17,7 +15,7 @@ public class MainConways {
                 cells[i][j] = Math.abs(rand.nextInt()) % 2;
             }
         }
-        for(int count = 0; count < 100; count++){
+        for(int count = 0; count < Integer.parseInt(args[0]); count++){
             System.out.println("Generation: " + count);
             try{
                 cells = ConwaysGameOfLife.getGeneration(cells, count);
